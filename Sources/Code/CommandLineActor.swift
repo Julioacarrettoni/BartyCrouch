@@ -354,7 +354,8 @@ public class CommandLineActor {
             exit(EX_IOERR)
         }
 
-        print("BartyCrouch: Successfully updated strings file(s) of Storyboard or XIB file.", level: .info)
+        let fileName = inputFilePath.components(separatedBy: "/").last ?? "unknown"
+        print("BartyCrouch: Successfully updated strings file(s) of Storyboard or XIB file. \(fileName)", level: .info)
     }
 
     private func translate(id: String, secret: String, _ inputFilePath: String, _ outputStringsFilePaths: [String], override: Bool, verbose: Bool) {
