@@ -100,11 +100,13 @@ public class CommandLineActor {
                 print("No file exists at input path '\(inputFilePath)'", level: .error); exit(EX_NOINPUT)
             }
 
-            let outputStringsFilePaths = StringsFilesSearch.shared.findAllLocalesForStringsFile(sourceFilePath: inputFilePath).filter { $0 != inputFilePath }
-
-            for outputStringsFilePath in outputStringsFilePaths {
-                guard FileManager.default.fileExists(atPath: outputStringsFilePath) else {
-                    print("No file exists at output path '\(outputStringsFilePath)'.", level: .error); exit(EX_CONFIG)
+            let outputStringsFilePaths = StringsFilesSearch.shared.findAllLocalesForStringsFile(sourceFilePath: inputFilePath).filter { $0 != inputFilePath }.filter { outputStringsFilePath in
+                if FileManager.default.fileExists(atPath: outputStringsFilePath) {
+                    return true
+                }
+                else {
+                    print("No file exists at output path '\(outputStringsFilePath)'.", level: .warning);//exit(EX_CONFIG)
+                    return false
                 }
             }
 
